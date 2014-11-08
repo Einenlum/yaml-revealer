@@ -19,7 +19,9 @@ Example
                bar: "bar"
                specialKey: "Hi"
 
-Typing `<Leader>yml` on your keyboard when you are on the last line, will make vim echo `myRoot > secondChild > myVar2 > specialKey`. 
+Typing `<Leader>yml` on your keyboard when you are on the last line, will make vim echo
+
+    myRoot > secondChild > myVar2 > specialKey
 
 Installation
 ------------
