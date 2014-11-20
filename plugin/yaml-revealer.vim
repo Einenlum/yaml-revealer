@@ -80,14 +80,16 @@ function! SearchYamlKey()
     " If not found at more that 10 the script stops
     let found = 0
     let indentationSearch = 0
+    let loopCount = 0
     while !found
+        let loopCount += 1
         if indentationSearch == 0
             let found = search('^'.inputList[0].':')
         else
             let found = search('^\s\{'.indentationSearch.'}'.inputList[0].':')
         endif
         let indentationSearch += indentationStep
-        if indentationSearch > 10
+        if loopCount > 10
             :call KeyNotFound(inputList[0])
             return 0
         endif
