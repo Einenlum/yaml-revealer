@@ -32,7 +32,8 @@ function! AddParentKeys()
     endwhile
 endfunction
 
-function! GetTreeStructure(inputLineNumber)
+function! GetTreeStructure(inputLineNumber, separator)
+    let initialView = winsaveview()
     if &filetype != 'yaml'
         echo 'This is not a Yaml file.'
         return 0
@@ -49,67 +50,62 @@ function! GetTreeStructure(inputLineNumber)
 
         :call AddParentKeys()
         :call reverse(s:keys)
-        echo join(s:keys, " > ")
 
-        let goBackToLineCmd = ':'.s:inputLineNumber
-        :exec goBackToLineCmd
+        :call winrestview(initialView)
+        return join(s:keys, a:separator)
+    else
+        :call winrestview(initialView)
+        return
+    endif
+endfunction
+
+function! EchoTreeStructure(inputLineNumber, echoTreeStructureSeparator)
+    let treeStructure = GetTreeStructure(a:inputLineNumber, a:echoTreeStructureSeparator)
+    if !empty(treeStructure)
+        echo treeStructure
     else
         echo "Empty line"
     endif
 endfunction
 
-function! KeyNotFound(keyName)
-    echo "\n\"".a:keyName."\" not found."
-    echo "\nThe correct syntax is:   firstVar>secondVar>thirdVar"
-endfunction
-
-function! SearchYamlKey()
-    if &filetype != 'yaml'
-        echo 'This is not a Yaml file.'
-        return 0
-    endif
-
-    let userInput = input('Search for a Yaml key: ')
+function! FlatYaml()
+    let initialView = winsaveview()
     let indentationStep = GetIndentationStep()
-
-    " reset cursor
+    let endLine = line("$")
     call cursor(1,1)
-    let inputList = split(userInput, '>')
+    
+    let finalFile = []
+    let currentLine = 1
 
-    " We look for the first match at 0, then at 2 or 4, and so on…
-    " If not found at more that 10 the script stops
-    let found = 0
-    let indentationSearch = 0
-    let loopCount = 0
-    while !found
-        let loopCount += 1
-        if indentationSearch == 0
-            let found = search('^'.inputList[0].':')
-        else
-            let found = search('^\s\{'.indentationSearch.'}'.inputList[0].':')
+    while currentLine < endLine
+        let treeStructure = GetTreeStructure(currentLine, '')
+        if !empty(treeStructure)
+            let lineToDisplay = currentLine.': '.treeStructure
+            :call add(finalFile, lineToDisplay)
         endif
-        let indentationSearch += indentationStep
-        if loopCount > 10
-            :call KeyNotFound(inputList[0])
-            return 0
-        endif
+        let currentLine += 1
     endwhile
 
-    " When we have found the first match
-    " If there are other keys…
-    if len(inputList) > 1
-        let range = range(1, (len(inputList) - 1))
-        for i in range
-            let currentIndent = indent(".")
-            let indentationSearch = currentIndent + indentationStep
-            let found = search('^\s\{'.indentationSearch.'}'.inputList[i].':')
-            if found == 0
-                :call KeyNotFound(inputList[i])
-                return 0
-            endif
-        endfor
-    endif
+    :call writefile(finalFile, $HOME.'/.vim/temp/temp.flatyml')
+    sp ~/.vim/temp/temp.flatyml
+    setlocal nobuflisted buftype=nofile bufhidden=wipe noswapfile
+    let userInput = input('Search for a Yaml key: ')
+    let userInputList = split(userInput, '\zs')
+    let finalSearch = ''
+
+    for char in userInputList
+        let finalSearch .= char.'\S*'
+    endfor
+
+    call cursor(1,1)
+    call search(finalSearch)
+    let searchCmd = 'call search(finalSearch)'
+    exec searchCmd
+    call cursor(".", 1)
+    let matchLine = matchstr(getline("."), "\\d\\+")
+    bw!
+    exec ':'.matchLine
 endfunction
 
-nmap <Leader>yml :call GetTreeStructure(line("."))<CR>
-nmap <Leader>ys :call SearchYamlKey()<CR>
+nnoremap <Leader>yml :call EchoTreeStructure(line("."), " > ")<CR>
+nnoremap <Leader>f :call FlatYaml()<CR>
