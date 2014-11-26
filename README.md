@@ -30,7 +30,7 @@ Typing `<Leader>yml` when you are on the last line, will make vim echo
 Typing `<Leader>f` will display a prompt to search a specific key. The search uses regular expressions a bit like the ctrlp plugin for files.
 For example, searching for
 
-    secChd>my2>specey
+    secChdmy2specey
 
 will find the line `myRoot>secondChild>myVar2>specialKey`.
 
