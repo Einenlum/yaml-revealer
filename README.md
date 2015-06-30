@@ -37,7 +37,7 @@ will find the line `myRoot>secondChild>myVar2>specialKey`.
 Installation
 ------------
 
-The plugin needs you to create a `temp` directory in `~/.vim`.
+**Important: The plugin needs you to create a `temp` directory in `~/.vim`.**
 
 ### Vundle Installation
 
