@@ -32,13 +32,14 @@ function! AddParentKeys()
     endwhile
 endfunction
 
-function! GetTreeStructure(inputLineNumber)
+function! GetTreeStructure(inputLine)
     if &filetype != 'yaml'
         echo 'This is not a Yaml file.'
         return 0
     endif
 
-    let s:inputLineNumber = a:inputLineNumber
+    let s:inputLineCol = col(a:inputLine)
+    let s:inputLineNumber = line(a:inputLine)
     let currentLine = getline(s:inputLineNumber)
     let currentKey = matchstr(currentLine, '\s*\zs.\+\ze:')
     let s:keys = [currentKey]
@@ -51,8 +52,7 @@ function! GetTreeStructure(inputLineNumber)
         :call reverse(s:keys)
         echo join(s:keys, " > ")
 
-        let goBackToLineCmd = ':'.s:inputLineNumber
-        :exec goBackToLineCmd
+        :call cursor(s:inputLineNumber, s:inputLineCol)
     else
         echo "Empty line"
     endif
@@ -111,5 +111,7 @@ function! SearchYamlKey()
     endif
 endfunction
 
-nmap <Leader>yml :call GetTreeStructure(line("."))<CR>
+nmap <Leader>yml :call GetTreeStructure(".")<CR>
 nmap <Leader>ys :call SearchYamlKey()<CR>
+
+autocmd Filetype yaml autocmd CursorMoved * let b:line = line('.') | if !exists("b:prevline") || (b:prevline != b:line)  | call GetTreeStructure(".") | let b:prevline = b:line | endif
