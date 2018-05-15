@@ -4,7 +4,7 @@
 
 If you often use Yaml files, you know they are very readable at the beginning, but also that they can become a bit harder to read when becoming longer and longer… **Yaml Revealer** is here to guide you when you're lost.
 
-![demo gif](https://user-images.githubusercontent.com/5675200/40068217-656c303a-5868-11e8-8cfb-206663518cc7.gif)
+![demo gif](https://user-images.githubusercontent.com/5675200/40068961-32d58f2a-586a-11e8-8db4-4da212f2f3b1.gif)
 
 ## Features
 
