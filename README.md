@@ -1,12 +1,12 @@
-Yaml Revealer
-=============
+# Yaml Revealer
 
 **Yaml Revealer** is a vim plugin which allows you to handle the full tree structure of a Yaml key.
 
 If you often use Yaml files, you know they are very readable at the beginning, but also that they can become a bit harder to read when becoming longer and longer… **Yaml Revealer** is here to guide you when you're lost.
 
-Features
---------
+![demo gif](https://user-images.githubusercontent.com/5675200/40068217-656c303a-5868-11e8-8cfb-206663518cc7.gif)
+
+## Features
 
 ### Reveal the full tree structure of a key
 
@@ -37,14 +37,12 @@ Searching for
 
 will find the concerned line.
 
-Installation
-------------
+## Installation
 
 ### Vundle Installation
 
 Add `Plugin 'Einenlum/yaml-revealer'` to your `.vimrc`, reload your config and run a `Plugin:Install`.
 
-Credits
--------
+## Credits
 
 Thanks to [@PedroTroller](https://github.com/PedroTroller) for his useful help :).
