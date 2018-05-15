@@ -21,7 +21,7 @@ If you often use Yaml files, you know they are very readable at the beginning, b
                bar: "bar"
                specialKey: "Hi"
 
-Typing `<Leader>yml` when you are on the last line, will make vim echo
+Jumping on the last line (or typing `<Leader>yml` on it) will automatically make vim echo
 
     myRoot > secondChild > myVar2 > specialKey
 
@@ -33,7 +33,7 @@ Typing `<Leader>ys` will display a prompt to search a specific key.
 
 Searching for
 
-    secondChild>myVar2>specialKey
+    myVar2>specialKey
 
 will find the concerned line.
 
