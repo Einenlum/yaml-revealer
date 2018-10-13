@@ -4,6 +4,12 @@
 " Maintainer: Einenlum
 " URL: https://github.com/Einenlum/yaml-revealer
 
+function! GetIndentationStep()
+  call cursor(1,1)
+  call search('^\s')
+  return indent(".")
+endfunction
+
 function! KeyNotFound(keyName)
     echo "\n\"".a:keyName."\" not found."
     echo "\nThe correct syntax is:   firstVar>secondVar>thirdVar"
@@ -57,6 +63,7 @@ function! GetAncestors(line, indent)
     if(getline(a:line) !~ '^\s*$') " not an empty line
       return ''
     else
+      " sometimes there are newlines within a multiline key
       return GetAncestors(a:line-1, a:indent) " return ancestors of previous line
     endif
   endif
