@@ -23,7 +23,7 @@ If you often use Yaml files, you know they are very readable at the beginning, b
 
 Moving to the indicated line will automatically make vim echo
 
-    myRoot > secondChild > myVar2 > specialKey
+    myRoot > secondChild > myVar2
 
 ### Search for a specific key
 
@@ -46,3 +46,4 @@ Add `Plugin 'Einenlum/yaml-revealer'` to your `.vimrc`, reload your config and r
 ## Credits
 
 Thanks to [@PedroTroller](https://github.com/PedroTroller) for his useful help :).
+Thanks to [@ezpuzz](https://github.com/ezpuzz) for improving performance.

@@ -58,13 +58,17 @@ function! SearchYamlKey()
     endif
 endfunction
 
-function! GetAncestors(line, indent)
-  if(indent(a:line) == 0 && a:line > 0)
+function! GetAncestors(line)
+  if(indent(a:line) == 0 && a:line == 1)
+    return ''
+  endif
+
+  if(indent(a:line) == 0 && a:line > 1)
     if(getline(a:line) !~ '^\s*$') " not an empty line
       return ''
     else
       " sometimes there are newlines within a multiline key
-      return GetAncestors(a:line-1, a:indent) " return ancestors of previous line
+      return GetAncestors(a:line-1) " return ancestors of previous line
     endif
   endif
 
@@ -75,10 +79,13 @@ function! GetAncestors(line, indent)
   let key = matchstr(getline(lastKeyLine), '\s*\zs.\+\ze:')
 
   if(indent(lastKeyLine) > 0)
-    return GetAncestors(lastKeyLine, indent(lastKeyLine)).' > '.key
+    return GetAncestors(lastKeyLine).' > '.key
   endif
 
   return key
 endfunction
 
-autocmd CursorMoved <buffer> redraw | echo GetAncestors(line('.'), indent('.'))
+augroup YamlRevealer
+  au!
+  autocmd CursorMoved <buffer> redraw | echo GetAncestors(line('.'))
+aug END
