@@ -19,15 +19,15 @@ If you often use Yaml files, you know they are very readable at the beginning, b
             myVar2:
                foo: "foo"
                bar: "bar"
-               specialKey: "Hi"
+    >          specialKey: "Hi"
 
-Jumping on the last line (or typing `<Leader>yml` on it) will automatically make vim echo
+Moving to the indicated line will automatically make vim echo
 
-    myRoot > secondChild > myVar2 > specialKey
+    myRoot > secondChild > myVar2
 
 ### Search for a specific key
 
-Typing `<Leader>ys` will display a prompt to search a specific key.
+Typing `:call SearchYamlKey()` will display a prompt to search a specific key.
 
     Search for a Yaml key:
 
@@ -46,3 +46,4 @@ Add `Plugin 'Einenlum/yaml-revealer'` to your `.vimrc`, reload your config and r
 ## Credits
 
 Thanks to [@PedroTroller](https://github.com/PedroTroller) for his useful help :).
+Thanks to [@ezpuzz](https://github.com/ezpuzz) for improving performance.
