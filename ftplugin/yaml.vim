@@ -4,6 +4,10 @@
 " Maintainer: Einenlum
 " URL: https://github.com/Einenlum/yaml-revealer
 
+" Global variables
+let g:yaml_revealer_separator = get(g:, 'yaml_revealer_separator', ' > ')
+let g:yaml_revealer_list_indicator = get(g:, 'yaml_revealer_list_indicator', 1)
+
 function! GetIndentationStep()
   call cursor(1,1)
   call search('^\s')
@@ -72,14 +76,33 @@ function! GetAncestors(line)
     endif
   endif
 
-  " find the first key above this in the file that has a lower indent
   let lowerIndent = indent(a:line)-1
-  let lastKeyLine = search('^\s\{0,'.lowerIndent.'}\S\+:', 'bnW')
+  " check if line is part of a list
+  let isList = ''
+  if(getline(a:line) =~# '^\s*-')
+    let isList = '[]'
+    " find the first key above this in the file that has is not a list member
+    let lastKeyLine = search('^\s\{0,'.indent(a:line).'}[^-]\S\+:', 'bnW')
+  else
+    " find the first key above this in the file that has a lower indent or a
+    " containing list member
+    let lastKeyLine = search('^\s\{0,'.lowerIndent.'}\(\S\+\|-\s\S\+\):', 'bnW')
+    let lastKeyLineContent = getline(lastKeyLine)
+    " check if the containing key is not a member of the same object
+    if(lastKeyLineContent =~# ':\s.\+$' && lastKeyLineContent =~# '^\s*-')
+      let lastKeyLine = search('^\s\{0,'.lowerIndent.'}\(\S\+\|-\s\S\+\):\s*$', 'zbnW')
+      let isList = '[]'
+    endif
+  endif
 
-  let key = matchstr(getline(lastKeyLine), '\s*\zs.\+\ze:')
+  if(!g:yaml_revealer_list_indicator)
+    let isList = ''
+  endif
+
+  let key = matchstr(getline(lastKeyLine), '\s*[\-]\?\s*\zs.\+\ze:').isList
 
   if(indent(lastKeyLine) > 0)
-    return GetAncestors(lastKeyLine).' > '.key
+    return GetAncestors(lastKeyLine).g:yaml_revealer_separator.key
   endif
 
   return key
