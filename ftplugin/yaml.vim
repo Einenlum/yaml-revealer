@@ -110,5 +110,7 @@ endfunction
 
 augroup YamlRevealer
   au!
-  autocmd CursorMoved <buffer> redraw | echo GetAncestors(line('.'))
+  if(&filetype =~# 'yaml')
+    autocmd CursorMoved <buffer> redraw | echo GetAncestors(line('.'))
+  endif
 aug END
