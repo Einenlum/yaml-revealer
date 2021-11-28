@@ -25,7 +25,7 @@ function! SearchYamlKey()
 
     " reset cursor
     call cursor(1,1)
-    let inputList = split(userInput, '>')
+    let inputList = split(userInput, g:yaml_revealer_separator)
 
     " We look for the first match at 0, then at 2 or 4, and so on…
     " If not found at more that 10 the script stops
