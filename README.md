@@ -37,11 +37,23 @@ Searching for
 
 will find the concerned line.
 
+## Configuration
+
+- You can configure the separator between the keys by setting the variable
+  `g:yaml_revealer_separator`. Default is `>`
+
+- By default, a list indicator (`[]`) is added to the path. This can be removed
+  by setting `g:yaml_revealer_list_indicator` to 0
+
 ## Installation
 
 ### Vundle Installation
 
 Add `Plugin 'Einenlum/yaml-revealer'` to your `.vimrc`, reload your config and run a `Plugin:Install`.
+
+### vim-plug Installation
+
+Add `Plug 'Einenlum/yaml-revealer'` to your `.vimrc`, reload your config and run a `:PlugInstall`.
 
 ## Credits
 
