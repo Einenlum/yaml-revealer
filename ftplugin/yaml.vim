@@ -5,8 +5,17 @@
 " URL: https://github.com/Einenlum/yaml-revealer
 
 " Global variables
-let g:yaml_revealer_separator = get(g:, 'yaml_revealer_separator', ' > ')
+let g:yaml_revealer_separator = get(g:, 'yaml_revealer_separator', '>')
 let g:yaml_revealer_list_indicator = get(g:, 'yaml_revealer_list_indicator', 1)
+
+function! TrimList(l)
+    let trimWords = []
+    for word in a:l
+        call add(trimWords, trim(word))
+    endfor
+
+    return trimWords
+endfunction
 
 function! GetIndentationStep()
   call cursor(1,1)
@@ -26,6 +35,7 @@ function! SearchYamlKey()
     " reset cursor
     call cursor(1,1)
     let inputList = split(userInput, g:yaml_revealer_separator)
+    let inputList = TrimList(inputList)
 
     " We look for the first match at 0, then at 2 or 4, and so on…
     " If not found at more that 10 the script stops
@@ -102,7 +112,7 @@ function! GetAncestors(line)
   let key = matchstr(getline(lastKeyLine), '\s*[\-]\?\s*\zs.\+\ze:').isList
 
   if(indent(lastKeyLine) > 0)
-    return GetAncestors(lastKeyLine).g:yaml_revealer_separator.key
+    return GetAncestors(lastKeyLine).' '.g:yaml_revealer_separator.' '.key
   endif
 
   return key

@@ -35,7 +35,15 @@ Searching for
 
     myVar2>specialKey
 
+or
+
+    myvar2 > specialKey
+
 will find the concerned line.
+
+## Requirements
+
+This plugin requires vim version superior to `8.0.1630` or neovim.
 
 ## Configuration
 
