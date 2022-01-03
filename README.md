@@ -57,5 +57,6 @@ Add `Plug 'Einenlum/yaml-revealer'` to your `.vimrc`, reload your config and run
 
 ## Credits
 
-Thanks to [@PedroTroller](https://github.com/PedroTroller) for his useful help :).
-Thanks to [@ezpuzz](https://github.com/ezpuzz) for improving performance.
+- Thanks to [@PedroTroller](https://github.com/PedroTroller) for his useful help :).
+- Thanks to [@ezpuzz](https://github.com/ezpuzz) for improving performance.
+- Thanks to [@mosheavni](https://github.com/mosheavni) for adding lists support.
